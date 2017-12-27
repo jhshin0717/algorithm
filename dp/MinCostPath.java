@@ -1,3 +1,4 @@
+
 /*
 Given a cost matrix cost[][] and a position (m, n) in cost[][], 
 write a function that returns cost of minimum cost path to reach (m, n) from (0, 0). 
@@ -34,53 +35,50 @@ import java.lang.*;
 import java.io.*;
 
 class MinCostPath {
-    static int [][] matrix = new int[20][20];
+    static int[][] matrix = new int[20][20];
+
     int minCost(int m, int n) {
-        if( m < 0 || n < 0) {
+        if (m < 0 || n < 0) {
             return 0;
         }
-        if(m == 0 && n == 0) {
+        if (m == 0 && n == 0) {
             return matrix[0][0];
         }
-        return min(minCost(m-1, n), minCost(m, n-1), minCost(m-1, n-1)) + matrix[m][n];
+        return min(minCost(m - 1, n), minCost(m, n - 1), minCost(m - 1, n - 1)) + matrix[m][n];
     }
 
     static int minCostDP(int m, int n) {
-        int [][] minCost = new int[m+1][n+1];
+        int[][] minCost = new int[m + 1][n + 1];
 
         minCost[0][0] = matrix[0][0];
         for (int i = 1; i <= m; i++) {
-            minCost[i][0] = minCost[i-1][0] + matrix[i][0];
+            minCost[i][0] = minCost[i - 1][0] + matrix[i][0];
         }
 
         for (int j = 1; j <= n; j++) {
-            minCost[0][j] = minCost[0][j-1] + matrix[0][j];
+            minCost[0][j] = minCost[0][j - 1] + matrix[0][j];
         }
 
         for (int i = 1; i <= m; i++) {
-            for(int j = 1; j <= n; j++) {
-                minCost[i][j] = min(minCost[i-1][j], minCost[i][j-1], minCost[i-1][j-1]) + matrix[i][j];
+            for (int j = 1; j <= n; j++) {
+                minCost[i][j] = min(minCost[i - 1][j], minCost[i][j - 1], minCost[i - 1][j - 1]) + matrix[i][j];
             }
         }
         return minCost[m][n];
     }
-    
-    private static int min(int x, int y, int z)
-    {
+
+    private static int min(int x, int y, int z) {
         if (x < y)
-            return (x < z)? x : z;
+            return (x < z) ? x : z;
         else
-            return (y < z)? y : z;
+            return (y < z) ? y : z;
     }
 
-	public static void main (String[] args) {
+    public static void main(String[] args) {
         //code
-        int cost[][]= {{1, 2, 3},
-        {4, 8, 2},
-        {1, 5, 3}};
+        int cost[][] = { { 1, 2, 3 }, { 4, 8, 2 }, { 1, 5, 3 } };
         matrix = cost;
 
-        System.out.println("minimum cost to reach (2,2) = " +
-                          minCostDP(3-1, 3-1));
-	}
+        System.out.println("minimum cost to reach (2,2) = " + minCostDP(3 - 1, 3 - 1));
+    }
 }
